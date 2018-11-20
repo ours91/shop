@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shop.app.shopactivity.MainActivity">
+
+    <fragment
+        android:id="@+id/activity_main_fragment"
+        android:name="com.shop.app.fragment.Fragment1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <!--页签1-->
+            <LinearLayout
+                android:id="@+id/activity_main_layout_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/index_1_active" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/index_1" />
+            </LinearLayout>
+
+            <!--页签2-->
+            <LinearLayout
+                android:id="@+id/activity_main_layout_2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/index_2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/index_2" />
+            </LinearLayout>
+
+            <!--页签3-->
+            <LinearLayout
+                android:id="@+id/activity_main_layout_3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/index_3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/index_3" />
+            </LinearLayout>
+
+            <!--页签4-->
+            <LinearLayout
+                android:id="@+id/activity_main_layout_4"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/index_4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/index_4" />
+            </LinearLayout>
+
+            <!--页签5-->
+            <LinearLayout
+                android:id="@+id/activity_main_layout_5"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/fifty"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/index_5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/index_5" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </fragment>
+</RelativeLayout>

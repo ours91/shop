@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ShopApplication</string>
+    <string name="index_1">页签1</string>
+    <string name="index_2">页签2</string>
+    <string name="index_3">页签3</string>
+    <string name="index_4">页签4</string>
+    <string name="index_5">页签5</string>
+</resources>
