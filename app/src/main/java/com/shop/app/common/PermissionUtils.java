@@ -2,78 +2,242 @@ package com.shop.app.common;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionUtils {
-    //相机权限检测请求码
-    public final static int PERMISSIONCODE = 999;
-    //相机权限
-    public final static int CAMERA = 0;
-    //sd卡读写权限
-    public final static int SD = 1;
-    public final static int SD1 = 2;
-    //短信
-    public final static int INFORMATION = 3;
-    //电话
-    public final static int PHONE = 4;
-    //精确定位
-    public final static int GPS = 5;
-    //获取手机状态
-    public final static int PHONE_STATE = 6;
+    private Context mContext;
 
-    //权限集合：
-    public static String[] pers = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_SMS,
-            Manifest.permission.CALL_PRIVILEGED,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.READ_PHONE_STATE
-    };
-
-    //当前需要申请的权限集合
-    public static int[] permissions;
-
-    //其他权限类似可自行添加
-
-    /**
-     * 根据需求输入对应的需要检测申请的权限
-     *
-     * @param permission
-     */
-    public static void setPermission(int... permission) {
-        permissions = permission;
+    public PermissionUtils(Context context) {
+        this.mContext = context;
     }
 
     /**
-     * 检测手机权限，如果没有提出申请
-     * mtype
+     * 请求获取拍照权限
+     * permission:android.permission.CAMERA
      */
-    public static void checkPermission(Activity activity, int... permission) {
-        setPermission(permission);
-        List<String> list = new ArrayList<String>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (permissions[i] >= pers.length) {
-                //执行此步骤标识，代码检测的权限值集合包含越界值
-                Toast.makeText(activity, "权限数值不合法", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if ((ContextCompat.checkSelfPermission(activity, pers[permissions[i]])) != PackageManager.PERMISSION_GRANTED) {
-                list.add(pers[permissions[i]]);
+    public boolean requestCameraPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.CAMERA, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.CAMERA}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取录音权限
+     * permission:android.permission.RECORD_AUDIO
+     */
+    public boolean requestAudioPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.RECORD_AUDIO, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.RECORD_AUDIO}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取写入数据权限
+     * permission:android.permission.READ_EXTERNAL_STORAGE
+     * permission:android.permission.WRITE_EXTERNAL_STORAGE
+     */
+    public boolean requestStoragePermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取定位权限
+     * permission:android.permission.ACCESS_FINE_LOCATION
+     * permission:android.permission.ACCESS_COARSE_LOCATION
+     */
+    public boolean requestLocationPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取联系人权限
+     * permission:android.permission.WRITE_CONTACTS
+     * permission:android.permission.GET_ACCOUNTS
+     * permission:android.permission.READ_CONTACTS
+     */
+    public boolean requestContactPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.WRITE_CONTACTS, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.WRITE_CONTACTS}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取短信权限
+     * permission:android.permission.READ_SMS
+     * permission:android.permission.RECEIVE_WAP_PUSH
+     * permission:android.permission.RECEIVE_MMS
+     * permission:android.permission.RECEIVE_SMS
+     * permission:android.permission.SEND_SMS
+     * permission:android.permission.READ_CELL_BROADCASTS
+     */
+    public boolean requestSmsPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.SEND_SMS, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.SEND_SMS}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取手机状态权限
+     * permission:android.permission.READ_CALL_LOG
+     * permission:android.permission.READ_PHONE_STATE
+     * permission:android.permission.CALL_PHONE
+     * permission:android.permission.WRITE_CALL_LOG
+     * permission:android.permission.USE_SIP
+     * permission:android.permission.PROCESS_OUTGOING_CALLS
+     * permission:com.android.voicemail.permission.ADD_VOICEMAIL
+     */
+    public boolean requestPhoneStatePermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.READ_PHONE_STATE, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.READ_PHONE_STATE}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取日历权限
+     * permission:android.permission.READ_CALENDAR
+     * permission:android.permission.WRITE_CALENDAR
+     */
+    public boolean requestCalendarPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.WRITE_CALENDAR, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.WRITE_CALENDAR}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取传感器权限
+     * permission:android.permission.BODY_SENSORS
+     */
+    public boolean requestSensorsPermission(int requestCode) {
+        boolean b = checkPermission(mContext, Manifest.permission.BODY_SENSORS, requestCode);
+        if (b) {
+            return true;
+        } else {
+            requestPermission(mContext, new String[]{Manifest.permission.BODY_SENSORS}, requestCode);
+        }
+        return false;
+    }
+
+    /**
+     * 请求获取多个权限 - 一般用于首次进入提示
+     * List<String> mPermissionsList = new ArrayList<>();
+     * mPermissionsList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+     * mPermissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+     * boolean b = requestPermissions(mPermissionsList);
+     */
+    public boolean requestPermissions(List<String> permissionsList) {
+        boolean flag = true;
+        List<String> mPermissionsList = new ArrayList<>();
+        if (!mPermissionsList.isEmpty()) {
+            mPermissionsList.clear();
+        }
+        for (int i = 0; i < permissionsList.size(); i++) {
+            String permission = permissionsList.get(i);
+            boolean b = checkPermission(mContext, permission, 10);
+            if (!b) {
+                flag = b;
+                mPermissionsList.add(permission);
             }
         }
-        if (list.size() > 0) {
-            String[] a = new String[list.size()];
-            list.toArray(a);
-            //申请权限
-            ActivityCompat.requestPermissions(activity, a, PERMISSIONCODE);
+        if (!mPermissionsList.isEmpty()) {
+            String[] permissions = (String[]) mPermissionsList.toArray(new String[mPermissionsList.size()]);
+            requestPermission(mContext, permissions, 10);
         }
+        return flag;
+    }
+
+    /**
+     * 检测权限
+     */
+    private boolean checkPermission(Context context, String permission, int code) {
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            // judgePermission(context, permission, code);
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 请求权限
+     */
+    private void requestPermission(Context context, String[] permissions, int code) {
+        ActivityCompat.requestPermissions((Activity) context, permissions, code);
+    }
+
+    /**
+     * 判断是否已拒绝过权限
+     *
+     * @describe :如果应用之前请求过此权限但用户拒绝，此方法将返回 true;
+     * -----------如果应用第一次请求权限或 用户在过去拒绝了权限请求，
+     * -----------并在权限请求系统对话框中选择了 Don't ask again 选项，此方法将返回 false。
+     */
+    private void judgePermission(Context context, String permission, int code) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, permission)) {
+            requestPermission(context, new String[]{permission}, code);
+        } else {
+            toPermissionSetting(context);
+        }
+    }
+
+    /**
+     * 跳转到权限设置界面
+     */
+    private void toPermissionSetting(Context context) {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            intent.setData(Uri.fromParts("package", context.getPackageName(), null));
+        } else if (Build.VERSION.SDK_INT <= 8) {
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+            intent.putExtra("com.android.settings.ApplicationPkgName", context.getPackageName());
+        }
+        context.startActivity(intent);
     }
 }

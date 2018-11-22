@@ -1,32 +1,13 @@
 package com.shop.app.common;
 
-/**
- * Created by liudong on 2017/7/5.
- */
-
 public class Constant {
 
-//    public static final String BaseUrl = "http://192.168.100.72";
-
-    public static final String BaseUrl = "http://myhome.ticp.io:54413";
-
-    public static final String Login_Url = "mobileLogin";
-
-    public static String Login_Name = "";
-
-    public static String auth_Token = "";
-
-    public static String chatToUser = "";//当前正在聊天的人
-
-
-    //注册用户
-    public static final String Register_Url = "register";
-
-    //发送图片 上传文件
-    public static final String Upload_Files = "uploadFiles";
-
-    public static final String allUsers = "allUsers";
-
+    //baseURL
+    public static final String BASE_URL = "http://192.168.100.72";
+    //HTTP请求前缀url
+    public static final String REQUEST_URL = Constant.BASE_URL + "/insproject-web-app/app/";
+    //文件系统url
+    public static final String FILE_URL = Constant.BASE_URL + "/insproject-file";
 
 }
 

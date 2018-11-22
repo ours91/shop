@@ -25,28 +25,12 @@ import okhttp3.Response;
 
 public class HttpRequest {
 
-    //内网
-//    private final String URL = "http://myhome.ticp.io:54413/insproject-web-app/app/";
-//    private final String FILE_URL = "http://myhome.ticp.io:54413/insproject-file";
-
-    private final String URL = Constant.BaseUrl + "/insproject-web-app/app/";
-    private final String FILE_URL = Constant.BaseUrl + "/insproject-file";
-
-    //服务器
-//    private final String URL = "http://113.200.189.142:6018/insproject-web-app-grid/app/";
-//    private final String FILE_URL = "http://113.200.189.142:6018/insproject-file";
+    private final String URL = Constant.REQUEST_URL;
+    private final String FILE_URL = Constant.FILE_URL;
 
     private int CONNECT_TIMEOUT = 60;
     private int READ_TIMEOUT = 100;
     private int WRITE_TIMEOUT = 60;
-
-    public String getUrl() {
-        return URL;
-    }
-
-    public String getFileUrl() {
-        return FILE_URL;
-    }
 
     /**
      * post请求
@@ -87,8 +71,6 @@ public class HttpRequest {
         if (data == null) {
             data = new HashMap<String, Object>();
         }
-        data.put("appVersion", BaseUtils.getVersionName(context));
-        data.put("deviceId", BaseUtils.getDeviceIMEI(context));
         if (TextUtil.isNotEmpty(BaseUtils.getSharedPreferences(context, "fu"))) {
             data.put("fu", BaseUtils.getSharedPreferences(context, "fu"));
         }

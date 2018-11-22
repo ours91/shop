@@ -54,4 +54,6 @@ dependencies {
     //bindView
     compile 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    //轮播图
+    compile 'com.youth.banner:banner:1.4.10'  //最新版本
 }

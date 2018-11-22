@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <com.youth.banner.Banner
+        android:id="@+id/fragment_1_banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/index_1"/>
+        android:layout_height="150dp" />
 
 </RelativeLayout>

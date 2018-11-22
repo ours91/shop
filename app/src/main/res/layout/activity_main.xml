@@ -6,119 +6,162 @@
     android:layout_height="match_parent"
     tools:context="com.shop.app.shopactivity.MainActivity">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/activity_main_fragment"
-        android:name="com.shop.app.fragment.Fragment1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/one"
+        android:layout_above="@+id/activity_main_linear"
+        android:background="@color/color_nine" />
+
+    <LinearLayout
+        android:id="@+id/activity_main_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FEFEFE"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/eight">
+
+        <!--页签1-->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:id="@+id/activity_main_layout_1"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <!--页签1-->
-            <LinearLayout
-                android:id="@+id/activity_main_layout_1"
+            <ImageView
+                android:id="@+id/activity_main_image_1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/index_1"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_main_text_1"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/index_1_active" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/index_1" />
-            </LinearLayout>
-
-            <!--页签2-->
-            <LinearLayout
-                android:id="@+id/activity_main_layout_2"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/index_2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/index_2" />
-            </LinearLayout>
-
-            <!--页签3-->
-            <LinearLayout
-                android:id="@+id/activity_main_layout_3"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/index_3" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/index_3" />
-            </LinearLayout>
-
-            <!--页签4-->
-            <LinearLayout
-                android:id="@+id/activity_main_layout_4"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/index_4" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/index_4" />
-            </LinearLayout>
-
-            <!--页签5-->
-            <LinearLayout
-                android:id="@+id/activity_main_layout_5"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/fifty"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/index_5" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/index_5" />
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/three"
+                android:text="@string/index_1"
+                android:textSize="10sp" />
         </LinearLayout>
 
-    </fragment>
+        <!--页签2-->
+        <LinearLayout
+            android:id="@+id/activity_main_layout_2"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/activity_main_image_2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/index_2"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_main_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/three"
+                android:text="@string/index_2"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!--页签3-->
+        <LinearLayout
+            android:id="@+id/activity_main_layout_3"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/activity_main_image_3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/index_3"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_main_text_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/three"
+                android:text="@string/index_3"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!--页签4-->
+        <LinearLayout
+            android:id="@+id/activity_main_layout_4"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/activity_main_image_4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/index_4"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_main_text_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/three"
+                android:text="@string/index_4"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!--页签5-->
+        <LinearLayout
+            android:id="@+id/activity_main_layout_5"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/activity_main_image_5"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/index_5"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/activity_main_text_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/three"
+                android:text="@string/index_5"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </RelativeLayout>

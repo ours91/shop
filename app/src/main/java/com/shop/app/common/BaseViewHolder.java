@@ -36,7 +36,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public void setImageUrl(int id, String url) {
         ImageView img = (ImageView) convertView.findViewById(id);
-        Glide.with(context).load(new HttpRequest().getFileUrl() + url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(img);
+        Glide.with(context).load(Constant.FILE_URL + url).placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).into(img);
     }
 
     public void setRating(int id, float rating) {
