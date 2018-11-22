@@ -16,6 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex') ) {
+                details.useVersion "27.1.0"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -48,12 +56,16 @@ dependencies {
     //圆形头像
     implementation 'com.facebook.fresco:fresco:0.14.1'
     //jsoup(显示富文本框用)
-    api group: 'org.jsoup', name: 'jsoup', version: '1.5.2'
+    api 'org.jsoup:jsoup:1.5.2'
     //系统jar包
     implementation files('libs/insplatform-core-1.0-SNAPSHOT.jar')
     //bindView
-    compile 'com.jakewharton:butterknife:8.6.0'
+    api 'com.jakewharton:butterknife:8.6.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     //轮播图
-    compile 'com.youth.banner:banner:1.4.10'  //最新版本
+    api 'com.youth.banner:banner:1.4.10'
+    //最新版本
+    //zxinglibrary
+    api project(path: ':zxinglibrary')
+    implementation files('libs/AMap_Location_V4.3.0_20181016.jar')
 }

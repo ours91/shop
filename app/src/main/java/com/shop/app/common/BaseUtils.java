@@ -55,12 +55,48 @@ import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BaseUtils {
 
     public static final String KEY_APP_KEY = "JPUSH_APPKEY";
+
+    private static SimpleDateFormat sdf = null;
+    public  static String formatUTC(long l, String strPattern) {
+        if (TextUtils.isEmpty(strPattern)) {
+            strPattern = "yyyy-MM-dd HH:mm:ss";
+        }
+        if (sdf == null) {
+            try {
+                sdf = new SimpleDateFormat(strPattern, Locale.CHINA);
+            } catch (Throwable e) {
+            }
+        } else {
+            sdf.applyPattern(strPattern);
+        }
+        return sdf == null ? "NULL" : sdf.format(l);
+    }
+
+    /**
+     * 获取app的名称
+     * @param context
+     * @return
+     */
+    public static String getAppName(Context context) {
+        String appName = "";
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    context.getPackageName(), 0);
+            int labelRes = packageInfo.applicationInfo.labelRes;
+            appName =  context.getResources().getString(labelRes);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return appName;
+    }
 
     /**
      * 获取DisplayMetrics

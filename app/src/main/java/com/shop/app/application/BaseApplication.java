@@ -18,7 +18,7 @@ import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
  */
 public class BaseApplication extends Application implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "BaseApplication";
-    private boolean isBackGround = true;//是否在前台
+    public static boolean isBackGround = true;//是否在前台
     private static Handler handler;
     private static BaseApplication application;
     private Context context;

@@ -1,41 +1,72 @@
 package com.shop.app.fragment;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.shop.app.common.HeaderBar;
 import com.shop.app.common.MyLog;
+import com.shop.app.common.getPhotoFromPhotoAlbum;
 import com.shop.app.shopapplication.R;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.app.Activity.RESULT_OK;
+
 public class Fragment1 extends Fragment implements OnBannerListener {
 
     private final String TAG = "Fragment1";
+    //系统返回值变量
+    private final Integer REQUEST_TAKE_SCAN_CODE = 10;
+    private final Integer REQUEST_TAKE_PHOTO_CODE = 11;
+    private final Integer REQUEST_TAKE_PHOTO_PICKER_CODE = 12;
+    //轮播图变量
     private ArrayList<String> list_path;
     private ArrayList<String> list_title;
+    //相机变量
+    // /storage/emulated/0/pic
+    public final static String SAVED_IMAGE_PATH1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pic";//+"/pic";
+    // /storage/emulated/0/Pictures
+    public final static String SAVED_IMAGE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();//.getAbsolutePath()+"/pic";//+"/pic";
+    String photoPath;
+
 
     @BindView(R.id.fragment_1_banner)
     Banner banner;
+    @BindView(R.id.headerBar)
+    HeaderBar headerBar;
+    @BindView(R.id.aaaa)
+    Button button;
     Unbinder unbinder;
 
     @Override
@@ -45,7 +76,9 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
+                initHeaderBar();
                 initView();
+                initData();
             }
         });
     }
@@ -56,6 +89,12 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         View view = inflater.inflate(R.layout.fragment_1, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    private void initHeaderBar() {
+        headerBar.setAppTitle("首页");
+        headerBar.initViewsVisible(false, true, false, false);
+
     }
 
     @Override
@@ -69,9 +108,9 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         list_path = new ArrayList<>();
         //放标题的集合
         list_title = new ArrayList<>();
+    }
 
-        MyLog.w(TAG, "我执行了");
-
+    private void initData() {
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
@@ -100,14 +139,82 @@ public class Fragment1 extends Fragment implements OnBannerListener {
                 .setOnBannerListener(this)
                 //必须最后调用的方法，启动轮播图。
                 .start();
+    }
 
+    private void scan() {
+        //扫一扫
+        Intent intent = new Intent(getActivity().getApplicationContext(), CaptureActivity.class);
+        startActivityForResult(intent, REQUEST_TAKE_SCAN_CODE);
+    }
 
+    private void takePhoto() {
+        //相机
+        //获取SD卡安装状态
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            //设置图片保存路径
+            photoPath = SAVED_IMAGE_PATH + "/" + System.currentTimeMillis() + ".png";
+            File imageDir = new File(photoPath);
+            if (!imageDir.exists()) {
+                try {
+                    //根据一个 文件地址生成一个新的文件用来存照片
+                    imageDir.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //实例化intent,指向摄像头
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            //根据路径实例化图片文件
+            File photoFile = new File(photoPath);
+            //设置拍照后图片保存到文件中
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+            //启动拍照activity并获取返回数据
+            startActivityForResult(intent, REQUEST_TAKE_PHOTO_CODE);
+        } else {
+            Toast.makeText(getActivity(), "SD卡未插入", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void takePhotoPicker() {
+        //调用相册
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(intent, REQUEST_TAKE_PHOTO_PICKER_CODE);
     }
 
     //轮播图的监听方法
     @Override
     public void OnBannerClick(int position) {
         Log.i("tag", "你点了第" + position + "张轮播图");
+        if (position == 0) {
+            scan();
+        } else if (position == 1) {
+            takePhoto();
+        } else if (position == 2) {
+            takePhotoPicker();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_SCAN_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                MyLog.w("扫描结果为：", content);
+            }
+        } else if (requestCode == REQUEST_TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
+            File photoFile = new File(photoPath);
+            if (photoFile.exists()) {
+                MyLog.w("拍照的图片地址是", photoFile.getAbsolutePath());
+            } else {
+                Toast.makeText(getActivity(), "图片文件不存在", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == REQUEST_TAKE_PHOTO_PICKER_CODE && resultCode == RESULT_OK) {
+            String photoPath = getPhotoFromPhotoAlbum.getRealPathFromUri(getActivity(), data.getData());
+            MyLog.w("选中的图片地址是", photoPath);
+        }
     }
 
     //自定义的图片加载器

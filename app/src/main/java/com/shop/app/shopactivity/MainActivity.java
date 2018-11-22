@@ -1,19 +1,33 @@
 package com.shop.app.shopactivity;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.app.Fragment;
+import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v4.app.ActivityCompat;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.Resource;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.AMapLocationQualityReport;
+import com.shop.app.application.BaseApplication;
+import com.shop.app.common.AMapLocationClientUtils;
 import com.shop.app.common.BaseActivity;
+import com.shop.app.common.BaseUtils;
+import com.shop.app.common.CallBackLocationListener;
+import com.shop.app.common.MyLog;
 import com.shop.app.common.PermissionUtils;
 import com.shop.app.fragment.Fragment1;
 import com.shop.app.fragment.Fragment2;
@@ -27,6 +41,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.shop.app.application.BaseApplication.isBackGround;
 
 public class MainActivity extends BaseActivity {
 
@@ -69,12 +85,19 @@ public class MainActivity extends BaseActivity {
     Fragment4 fragment4;
     Fragment5 fragment5;
 
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        checkPermissions();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                checkPermissions();
+            }
+        });
         initTitle();
         init();
         initData();
@@ -83,12 +106,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         ButterKnife.bind(this);
-        //首页fragment处理
-        fragment1 = new Fragment1();
-        FragmentManager fm = getFragmentManager();//获取到一个FragmentManger
-        FragmentTransaction ft = fm.beginTransaction();//开启一个事务
-        ft.add(R.id.activity_main_fragment, fragment1);
-        ft.commit();
+        context = this;
+
         imageView1.setImageResource(R.drawable.index_1_active);
         textView1.setTextColor(getResources().getColor(R.color.forestgreen));
 
@@ -97,16 +116,49 @@ public class MainActivity extends BaseActivity {
         linearLayout3.setOnClickListener(l);
         linearLayout4.setOnClickListener(l);
         linearLayout5.setOnClickListener(l);
+
+        new AMapLocationClientUtils(context).initLocation(new CallBackLocationListener() {
+            @Override
+            public void onCallBackSuccess(AMapLocation location) {
+                if (null != location) {
+                    StringBuffer sb = new StringBuffer();
+                    //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
+                    if (location.getErrorCode() == 0) {
+                        sb.append("定位成功" + "\n");
+                        sb.append("经    度    : " + location.getLongitude() + "\n");
+                        sb.append("纬    度    : " + location.getLatitude() + "\n");
+                        sb.append("精    度    : " + location.getAccuracy() + "米" + "\n");
+                        sb.append("国    家    : " + location.getCountry() + "\n");
+                        sb.append("省          : " + location.getProvince() + "\n");
+                        sb.append("市          : " + location.getCity() + "\n");
+                    }
+                    //解析定位结果，
+                    String result = sb.toString();
+                    MyLog.w("---", result);
+                }
+            }
+        });
     }
 
     @Override
     protected void initData() {
+        //首页fragment处理
+        fragment1 = new Fragment1();
+        FragmentManager fm = getFragmentManager();//获取到一个FragmentManger
+        FragmentTransaction ft = fm.beginTransaction();//开启一个事务
+        ft.add(R.id.activity_main_fragment, fragment1);
+        ft.commit();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new AMapLocationClientUtils(context).destroyLocation();
     }
 
     @Override
     protected void initTitle() {
-
+        BaseUtils.initHeaderBar(this);
     }
 
     View.OnClickListener l = new View.OnClickListener() {
@@ -231,6 +283,7 @@ public class MainActivity extends BaseActivity {
         l.add(Manifest.permission.ACCESS_NETWORK_STATE);
         l.add(Manifest.permission.ACCESS_WIFI_STATE);
         l.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        l.add(Manifest.permission.ACCESS_FINE_LOCATION);
         l.add(Manifest.permission.CHANGE_WIFI_STATE);
         l.add(Manifest.permission.CAMERA);
         l.add(Manifest.permission.READ_PHONE_STATE);
