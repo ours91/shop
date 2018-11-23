@@ -105,7 +105,6 @@ public class AMapLocationClientUtils {
 
     @SuppressLint("NewApi")
     private Notification buildNotification() {
-
         Notification.Builder builder = null;
         Notification notification = null;
         if (android.os.Build.VERSION.SDK_INT >= 26) {

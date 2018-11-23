@@ -3,7 +3,6 @@ package com.shop.app.fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -59,7 +58,6 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     // /storage/emulated/0/Pictures
     public final static String SAVED_IMAGE_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath();//.getAbsolutePath()+"/pic";//+"/pic";
     String photoPath;
-
 
     @BindView(R.id.fragment_1_banner)
     Banner banner;

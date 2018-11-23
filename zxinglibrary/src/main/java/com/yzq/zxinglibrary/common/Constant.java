@@ -19,11 +19,6 @@ public class Constant {
     public static final int REQUEST_IMAGE = 10;
     public static final String CODED_CONTENT = "codedContent";
     public static final String CODED_BITMAP = "codedBitmap";
-
-
     /*传递的zxingconfing*/
-
     public static final String INTENT_ZXING_CONFIG = "zxingConfig";
-
-
 }
