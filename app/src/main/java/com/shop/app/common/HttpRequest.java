@@ -38,11 +38,11 @@ public class HttpRequest {
      *
      * @param context,传context,获取设备id需要
      * @param data,以map的形式传递参数
-     * @param callBackSuccess,回调callback
+     * @param abstractCallBackSuccess,回调callback
      */
-    public void post(final Context context, String url, Map<String, Object> data, final CallBackSuccess callBackSuccess) {
+    public void post(final Context context, String url, Map<String, Object> data, final AbstractCallBackSuccess abstractCallBackSuccess) {
         if (BaseUtils.isNetworkConnected(context)) {
-            post(context, url, data, callBackSuccess, false);
+            post(context, url, data, abstractCallBackSuccess, false);
         } else {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
@@ -53,7 +53,7 @@ public class HttpRequest {
         }
     }
 
-    public void post(final Context context, String url, Map<String, Object> data, final CallBackSuccess callBackSuccess, boolean showLoading) {
+    public void post(final Context context, String url, Map<String, Object> data, final AbstractCallBackSuccess abstractCallBackSuccess, boolean showLoading) {
         if (showLoading) {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(new Runnable() {
@@ -95,7 +95,7 @@ public class HttpRequest {
                  * 成功统一处理
                  * 返回成功,则是data
                  */
-                callBackSuccess.onCallBackSuccess(data.get("data"));
+                abstractCallBackSuccess.onCallBackSuccess(data.get("data"));
             }
         });
 

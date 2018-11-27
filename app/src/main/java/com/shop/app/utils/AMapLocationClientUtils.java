@@ -12,7 +12,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
-import com.shop.app.common.CallBackLocationListener;
+import com.shop.app.common.AbstractCallBackLocationListener;
 import com.shop.app.shopapplication.R;
 
 import static com.shop.app.application.BaseApplication.isBackGround;
@@ -22,14 +22,14 @@ public class AMapLocationClientUtils {
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private Context context;
-    private CallBackLocationListener callBackLocationListener;
+    private AbstractCallBackLocationListener abstractCallBackLocationListener;
     private final String TAG = "AMapLocationClientUtils";
 
     public AMapLocationClientUtils(Context context) {
         this.context = context;
     }
 
-    public void initLocation(CallBackLocationListener callBackLocationListener) {
+    public void initLocation(AbstractCallBackLocationListener abstractCallBackLocationListener) {
         //初始化client
         locationClient = new AMapLocationClient(context);
         locationOption = getDefaultOption();
@@ -38,7 +38,7 @@ public class AMapLocationClientUtils {
         // 设置定位监听
         locationClient.setLocationListener(locationListener);
         startLocation();
-        this.callBackLocationListener = callBackLocationListener;
+        this.abstractCallBackLocationListener = abstractCallBackLocationListener;
     }
 
     public void backCloseGps() {
@@ -201,7 +201,7 @@ public class AMapLocationClientUtils {
                 //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
                 if (location.getErrorCode() == 0) {
                     //定位成功, 返回定位结果
-                    callBackLocationListener.onCallBackSuccess(location);
+                    abstractCallBackLocationListener.onCallBackSuccess(location);
                 } else {
                     //定位失败
                     sb.append("定位失败" + "\n");

@@ -97,7 +97,7 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 //页面加载url
-                view.loadUrl(url);
+                view.loadUrl(request.getUrl().toString());
                 return true;
             }
 

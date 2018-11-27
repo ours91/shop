@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseRecycleAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class AbstractBaseRecycleAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private int layoutId;
     private List<Map<String, Object>> data;
     private Context context;
@@ -22,7 +22,7 @@ public abstract class BaseRecycleAdapter extends RecyclerView.Adapter<BaseViewHo
      * @param layoutId //布局id
      * @param data     //数据源
      */
-    public BaseRecycleAdapter(Context context, int layoutId, List<Map<String, Object>> data) {
+    public AbstractBaseRecycleAdapter(Context context, int layoutId, List<Map<String, Object>> data) {
         this.layoutId = layoutId;
         this.data = data;
         this.context = context;

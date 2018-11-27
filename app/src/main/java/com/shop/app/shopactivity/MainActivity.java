@@ -16,7 +16,7 @@ import com.amap.api.location.AMapLocation;
 import com.shop.app.utils.AMapLocationClientUtils;
 import com.shop.app.common.BaseActivity;
 import com.shop.app.utils.BaseUtils;
-import com.shop.app.common.CallBackLocationListener;
+import com.shop.app.common.AbstractCallBackLocationListener;
 import com.shop.app.utils.MyLog;
 import com.shop.app.utils.PermissionUtils;
 import com.shop.app.fragment.Fragment1;
@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
         linearLayout4.setOnClickListener(l);
         linearLayout5.setOnClickListener(l);
 
-        new AMapLocationClientUtils(context).initLocation(new CallBackLocationListener() {
+        new AMapLocationClientUtils(context).initLocation(new AbstractCallBackLocationListener() {
             @Override
             public void onCallBackSuccess(AMapLocation location) {
                 if (null != location) {

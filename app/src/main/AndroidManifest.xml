@@ -57,16 +57,16 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="a165abdf5e75083e0ca28b5a3d4c48e7"></meta-data>
+            android:value="a165abdf5e75083e0ca28b5a3d4c48e7" />
 
-        <activity android:name="com.shop.app.shopactivity.MainActivity">
+        <activity android:name="com.shop.app.shopactivity.splashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.shop.app.shopactivity.WebViewActivity"></activity>
+        <activity android:name="com.shop.app.shopactivity.WebViewActivity" />
+        <activity android:name="com.shop.app.shopactivity.MainActivity"></activity>
     </application>
 
 </manifest>
