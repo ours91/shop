@@ -26,13 +26,11 @@ import android.webkit.WebViewClient;
 import com.insplatform.core.utils.TextUtil;
 import com.shop.app.common.BaseActivity;
 import com.shop.app.utils.BaseUtils;
-import com.shop.app.common.MyLog;
+import com.shop.app.utils.MyLog;
 import com.shop.app.shopapplication.R;
-import com.shop.app.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 

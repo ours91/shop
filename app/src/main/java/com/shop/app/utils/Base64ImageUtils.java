@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 
 import android.util.Base64;

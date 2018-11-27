@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.shop.app.common.MyLog;
+import com.shop.app.utils.MyLog;
 import com.shop.app.utils.Utils;
 import com.xiasuhuei321.loadingdialog.manager.StyleManager;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;

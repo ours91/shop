@@ -13,11 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.shop.app.common.AMapLocationClientUtils;
+import com.shop.app.utils.AMapLocationClientUtils;
 import com.shop.app.common.BaseActivity;
 import com.shop.app.utils.BaseUtils;
 import com.shop.app.common.CallBackLocationListener;
-import com.shop.app.common.MyLog;
+import com.shop.app.utils.MyLog;
 import com.shop.app.utils.PermissionUtils;
 import com.shop.app.fragment.Fragment1;
 import com.shop.app.fragment.Fragment2;

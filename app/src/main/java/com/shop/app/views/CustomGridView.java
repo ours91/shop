@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;

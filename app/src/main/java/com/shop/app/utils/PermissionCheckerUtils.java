@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.support.v4.app.ActivityCompat;
 
 import java.util.ArrayList;
 
-public class PermissionChecker {
+public class PermissionCheckerUtils {
 
     private final int REQUEST_MULTIPLE_PERMISSION = 100;
     private VerifyPermissionsCallback callbackMultiple;

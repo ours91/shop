@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -12,8 +12,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
+import com.shop.app.common.CallBackLocationListener;
 import com.shop.app.shopapplication.R;
-import com.shop.app.utils.BaseUtils;
 
 import static com.shop.app.application.BaseApplication.isBackGround;
 

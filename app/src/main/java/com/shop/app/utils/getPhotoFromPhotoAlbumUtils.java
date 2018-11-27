@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
@@ -9,7 +9,7 @@ import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
-public class getPhotoFromPhotoAlbum {
+public class getPhotoFromPhotoAlbumUtils {
     /**
      * 根据Uri获取图片的绝对路径
      *

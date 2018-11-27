@@ -22,11 +22,11 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.shop.app.common.HeaderBar;
-import com.shop.app.common.MyLog;
-import com.shop.app.common.getPhotoFromPhotoAlbum;
 import com.shop.app.shopactivity.WebViewActivity;
 import com.shop.app.shopapplication.R;
+import com.shop.app.utils.MyLog;
+import com.shop.app.utils.getPhotoFromPhotoAlbumUtils;
+import com.shop.app.views.HeaderBar;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -254,7 +254,7 @@ public class Fragment1 extends Fragment implements OnBannerListener {
                 Toast.makeText(getActivity(), "图片文件不存在", Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO_PICKER_CODE && resultCode == RESULT_OK) {
-            String photoPath = getPhotoFromPhotoAlbum.getRealPathFromUri(getActivity(), data.getData());
+            String photoPath = getPhotoFromPhotoAlbumUtils.getRealPathFromUri(getActivity(), data.getData());
             MyLog.w("选中的图片地址是", photoPath);
         }
     }
