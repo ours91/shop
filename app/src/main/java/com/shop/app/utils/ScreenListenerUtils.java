@@ -12,13 +12,13 @@ import android.os.PowerManager;
  * 锁屏监听
  */
 
-public class ScreenListener {
+public class ScreenListenerUtils {
 
     private Context mContext;
     private ScreenBroadcastReceiver mScreenReceiver;
     private ScreenStateListener mScreenStateListener;
 
-    public ScreenListener(Context context) {
+    public ScreenListenerUtils(Context context) {
         mContext = context;
         mScreenReceiver = new ScreenBroadcastReceiver();
     }

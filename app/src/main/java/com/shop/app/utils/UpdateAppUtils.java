@@ -29,7 +29,7 @@ import java.net.URL;
  * 2018年3月21日 13:19:11
  * app自动更新服务
  */
-public class UpdateAppService {
+public class UpdateAppUtils {
 
     private String url;//需要更新的App地址
     private static Dialog baseDialog = null;//提示框,防止重复弹框
@@ -44,7 +44,7 @@ public class UpdateAppService {
     private int MAX_PROGRESS = 100;//下载进度条最大值
     private ProgressDialog progressDialog = null;//下载进度条对象
 
-    public UpdateAppService(Context context) {
+    public UpdateAppUtils(Context context) {
         this.context = context;
     }
 
