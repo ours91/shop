@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.donkingliang.imageselector.ClipImageActivity;
 import com.donkingliang.imageselector.ImageSelectorActivity;
+import com.shop.app.common.AppManager;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

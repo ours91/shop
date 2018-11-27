@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ShopApplication</string>
+    <integer name="fragment_1_circle_btn_count">5</integer>
+    <integer name="fragment_2_circle_btn_count">5</integer>
+    <integer name="fragment_3_circle_btn_count">5</integer>
+    <integer name="fragment_4_circle_btn_count">5</integer>
+    <integer name="fragment_5_circle_btn_count">5</integer>
     <string name="index_1">页签1</string>
     <string name="index_2">页签2</string>
     <string name="index_3">页签3</string>

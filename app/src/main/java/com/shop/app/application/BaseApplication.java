@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.shop.app.common.BaseUtils;
 import com.shop.app.common.MyLog;
-import com.shop.app.common.Utils;
+import com.shop.app.utils.Utils;
 import com.xiasuhuei321.loadingdialog.manager.StyleManager;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
@@ -27,19 +26,15 @@ public class BaseApplication extends Application implements Application.Activity
     public void onCreate() {
         //初始化方法写这
         super.onCreate();
-
         context = this;
-
         //圆形头像初始化
         Fresco.initialize(this);
-
         Utils.init(getApplicationContext());
         handler = new Handler();
         application = this;
         //极光推送初始化
 //        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
 //        JPushInterface.init(this);     		// 初始化 JPush
-
         //初始化loading
         StyleManager s = new StyleManager();
         //在这里调用方法设置s的属性

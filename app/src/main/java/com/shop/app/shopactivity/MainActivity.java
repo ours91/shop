@@ -1,14 +1,9 @@
 package com.shop.app.shopactivity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,17 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.AMapLocationQualityReport;
-import com.shop.app.application.BaseApplication;
 import com.shop.app.common.AMapLocationClientUtils;
 import com.shop.app.common.BaseActivity;
-import com.shop.app.common.BaseUtils;
+import com.shop.app.utils.BaseUtils;
 import com.shop.app.common.CallBackLocationListener;
 import com.shop.app.common.MyLog;
-import com.shop.app.common.PermissionUtils;
+import com.shop.app.utils.PermissionUtils;
 import com.shop.app.fragment.Fragment1;
 import com.shop.app.fragment.Fragment2;
 import com.shop.app.fragment.Fragment3;
@@ -41,8 +31,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.shop.app.application.BaseApplication.isBackGround;
 
 public class MainActivity extends BaseActivity {
 

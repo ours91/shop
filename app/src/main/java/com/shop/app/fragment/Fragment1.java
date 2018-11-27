@@ -15,14 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.shop.app.common.HeaderBar;
 import com.shop.app.common.MyLog;
 import com.shop.app.common.getPhotoFromPhotoAlbum;
+import com.shop.app.shopactivity.WebViewActivity;
 import com.shop.app.shopapplication.R;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -35,6 +38,9 @@ import com.yzq.zxinglibrary.common.Constant;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,9 +69,16 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     Banner banner;
     @BindView(R.id.headerBar)
     HeaderBar headerBar;
-    @BindView(R.id.aaaa)
-    Button button;
+    @BindView(R.id.fragment_1_gridView)
+    GridView gridView;
     Unbinder unbinder;
+
+
+    //圆形按钮适配器
+    private SimpleAdapter simpleAdapter;
+    private List<Map<String, Object>> list_circle_btn;
+    private int[] icon = {R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1};
+    private String[] iconName = {"通讯录", "日历", "照相机", "时钟", "游戏", "短信", "铃声", "设置", "语音", "天气", "浏览器", "视频"};
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,9 +119,12 @@ public class Fragment1 extends Fragment implements OnBannerListener {
         list_path = new ArrayList<>();
         //放标题的集合
         list_title = new ArrayList<>();
+        //圆形按钮集合
+        list_circle_btn = new ArrayList<>();
     }
 
     private void initData() {
+        /***********************轮播图*************************/
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
         list_path.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
@@ -137,6 +153,34 @@ public class Fragment1 extends Fragment implements OnBannerListener {
                 .setOnBannerListener(this)
                 //必须最后调用的方法，启动轮播图。
                 .start();
+        /***********************圆形按钮*************************/
+        simpleAdapter = new SimpleAdapter(getActivity().getApplicationContext(), getData(), R.layout.adapter_circle_btn, new String[]{"image", "text"},
+                new int[]{R.id.adapter_circle_image, R.id.adapter_circle_text});
+        gridView.setAdapter(simpleAdapter);
+        gridView.setOnItemClickListener(l);
+    }
+
+    AdapterView.OnItemClickListener l = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            if (position > -1) {
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putCharSequence("url", "https://www.baidu.com");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
+    };
+
+    private List<Map<String, Object>> getData() {
+        for (int i = 0; i < icon.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("image", icon[i]);
+            map.put("text", iconName[i]);
+            list_circle_btn.add(map);
+        }
+        return list_circle_btn;
     }
 
     private void scan() {

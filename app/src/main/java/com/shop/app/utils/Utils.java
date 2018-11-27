@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

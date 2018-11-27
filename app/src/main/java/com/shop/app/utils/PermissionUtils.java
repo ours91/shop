@@ -1,4 +1,4 @@
-package com.shop.app.common;
+package com.shop.app.utils;
 
 import android.Manifest;
 import android.app.Activity;
