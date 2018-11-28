@@ -67,5 +67,8 @@ dependencies {
     //最新版本
     //zxinglibrary
     api project(path: ':zxinglibrary')
+    //高的地图
     implementation files('libs/AMap_Location_V4.3.0_20181016.jar')
+    //权限
+    compile 'com.github.dfqin:grantor:2.5'
 }

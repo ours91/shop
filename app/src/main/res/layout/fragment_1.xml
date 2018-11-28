@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
 
-    <com.shop.app.common.HeaderBar
+    <com.shop.app.views.HeaderBar
         android:id="@+id/headerBar"
         android:layout_width="match_parent"
         android:layout_height="64dp">
 
-    </com.shop.app.common.HeaderBar>
+    </com.shop.app.views.HeaderBar>
 
     <com.youth.banner.Banner
         android:id="@+id/fragment_1_banner"

@@ -8,7 +8,6 @@ import android.os.Handler;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.shop.app.utils.MyLog;
-import com.shop.app.utils.Utils;
 import com.xiasuhuei321.loadingdialog.manager.StyleManager;
 import com.xiasuhuei321.loadingdialog.view.LoadingDialog;
 
@@ -29,7 +28,6 @@ public class BaseApplication extends Application implements Application.Activity
         context = this;
         //圆形头像初始化
         Fresco.initialize(this);
-        Utils.init(getApplicationContext());
         handler = new Handler();
         application = this;
         //极光推送初始化

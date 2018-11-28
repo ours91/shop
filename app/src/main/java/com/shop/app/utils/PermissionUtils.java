@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
@@ -24,12 +25,16 @@ public class PermissionUtils {
      * 请求获取拍照权限
      * permission:android.permission.CAMERA
      */
-    public boolean requestCameraPermission(int requestCode) {
+    public boolean requestCameraPermission(int requestCode, Fragment... fragment) {
         boolean b = checkPermission(mContext, Manifest.permission.CAMERA, requestCode);
         if (b) {
             return true;
         } else {
-            requestPermission(mContext, new String[]{Manifest.permission.CAMERA}, requestCode);
+            if (fragment == null) {
+                requestPermission(mContext, new String[]{Manifest.permission.CAMERA}, requestCode);
+            } else {
+                fragmentRequestPermission(fragment[0], new String[]{Manifest.permission.CAMERA}, requestCode);
+            }
         }
         return false;
     }
@@ -193,7 +198,7 @@ public class PermissionUtils {
     /**
      * 检测权限
      */
-    private boolean checkPermission(Context context, String permission, int code) {
+    public boolean checkPermission(Context context, String permission, int code) {
         if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
             // judgePermission(context, permission, code);
         } else {
@@ -203,10 +208,17 @@ public class PermissionUtils {
     }
 
     /**
-     * 请求权限
+     * Activity请求权限
      */
-    private void requestPermission(Context context, String[] permissions, int code) {
+    public void requestPermission(Context context, String[] permissions, int code) {
         ActivityCompat.requestPermissions((Activity) context, permissions, code);
+    }
+
+    /**
+     * Fragment请求权限
+     */
+    public void fragmentRequestPermission(Fragment fragment, String[] permissions, int code) {
+        fragment.requestPermissions(permissions, code);
     }
 
     /**

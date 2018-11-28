@@ -5,29 +5,25 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.shop.app.utils.AMapLocationClientUtils;
-import com.shop.app.common.BaseActivity;
-import com.shop.app.utils.BaseUtils;
 import com.shop.app.common.AbstractCallBackLocationListener;
-import com.shop.app.utils.MyLog;
-import com.shop.app.utils.PermissionUtils;
+import com.shop.app.common.BaseActivity;
 import com.shop.app.fragment.Fragment1;
 import com.shop.app.fragment.Fragment2;
 import com.shop.app.fragment.Fragment3;
 import com.shop.app.fragment.Fragment4;
 import com.shop.app.fragment.Fragment5;
 import com.shop.app.shopapplication.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.shop.app.utils.AMapLocationClientUtils;
+import com.shop.app.utils.BaseUtils;
+import com.shop.app.utils.MyLog;
+import com.shop.app.utils.PermissionUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,18 +70,13 @@ public class MainActivity extends BaseActivity {
     Fragment5 fragment5;
 
     private Context context;
+    private final Integer REQUEST_PERMISSION_LOCATION_CODE = 12;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                checkPermissions();
-            }
-        });
         initTitle();
         init();
         initData();
@@ -105,6 +96,21 @@ public class MainActivity extends BaseActivity {
         linearLayout4.setOnClickListener(l);
         linearLayout5.setOnClickListener(l);
 
+        boolean b = new PermissionUtils(context).requestLocationPermission(REQUEST_PERMISSION_LOCATION_CODE);
+        if (b) {
+            getLocation();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_LOCATION_CODE) {
+            getLocation();
+        }
+    }
+
+    private void getLocation() {
         new AMapLocationClientUtils(context).initLocation(new AbstractCallBackLocationListener() {
             @Override
             public void onCallBackSuccess(AMapLocation location) {
@@ -258,24 +264,5 @@ public class MainActivity extends BaseActivity {
         textView3.setTextColor(getResources().getColor(R.color.colorTextAssistant));
         textView4.setTextColor(getResources().getColor(R.color.colorTextAssistant));
         textView5.setTextColor(getResources().getColor(R.color.colorTextAssistant));
-    }
-
-    //检测权限
-    private void checkPermissions() {
-        PermissionUtils p = new PermissionUtils(context);
-        List<String> l = new ArrayList<>();
-        l.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        l.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        l.add(Manifest.permission.RECORD_AUDIO);
-        l.add(Manifest.permission.INTERNET);
-        l.add(Manifest.permission.ACCESS_NETWORK_STATE);
-        l.add(Manifest.permission.ACCESS_WIFI_STATE);
-        l.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        l.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        l.add(Manifest.permission.CHANGE_WIFI_STATE);
-        l.add(Manifest.permission.CAMERA);
-        l.add(Manifest.permission.READ_PHONE_STATE);
-        l.add(Manifest.permission.MODIFY_AUDIO_SETTINGS);
-        p.requestPermissions(l);
     }
 }

@@ -1,9 +1,11 @@
 package com.shop.app.fragment;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +25,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.dfqin.grantor.PermissionListener;
+import com.github.dfqin.grantor.PermissionsUtil;
 import com.shop.app.shopactivity.WebViewActivity;
 import com.shop.app.shopapplication.R;
 import com.shop.app.utils.MyLog;
@@ -36,6 +41,7 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,6 +79,19 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     GridView gridView;
     Unbinder unbinder;
 
+    private Context context;
+
+    /**
+     * Manifest.permission.CAMERA                 //摄像头权限
+     * Manifest.permission.RECORD_AUDIO           //录音权限
+     * Manifest.permission.WRITE_EXTERNAL_STORAGE //手机存储权限
+     * Manifest.permission.ACCESS_COARSE_LOCATION //定位权限
+     * Manifest.permission.WRITE_CONTACTS         //联系人权限
+     * Manifest.permission.SEND_SMS               //短信权限
+     * Manifest.permission.READ_PHONE_STATE       //手机状态权限
+     * Manifest.permission.WRITE_CALENDAR         //手机日历权限
+     * Manifest.permission.BODY_SENSORS           //传感器权限
+     */
 
     //圆形按钮适配器
     private SimpleAdapter simpleAdapter;
@@ -80,10 +99,12 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     private int[] icon = {R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1, R.drawable.index1};
     private String[] iconName = {"通讯录", "日历", "照相机", "时钟", "游戏", "短信", "铃声", "设置", "语音", "天气", "浏览器", "视频"};
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(getActivity());
+        context = getContext();
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -184,52 +205,85 @@ public class Fragment1 extends Fragment implements OnBannerListener {
     }
 
     private void scan() {
-        //扫一扫
-        Intent intent = new Intent(getActivity().getApplicationContext(), CaptureActivity.class);
-        startActivityForResult(intent, REQUEST_TAKE_SCAN_CODE);
+        PermissionsUtil.requestPermission(context, new PermissionListener() {
+            @Override
+            public void permissionGranted(@NonNull String[] permissions) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_TAKE_SCAN_CODE);
+            }
+
+            @Override
+            public void permissionDenied(@NonNull String[] permissions) {
+                Toast.makeText(context, "用户拒绝了访问摄像头", Toast.LENGTH_LONG).show();
+            }
+        }, Manifest.permission.CAMERA);
     }
 
     private void takePhoto() {
-        //相机
-        //获取SD卡安装状态
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            //设置图片保存路径
-            photoPath = SAVED_IMAGE_PATH + "/" + System.currentTimeMillis() + ".png";
-            File imageDir = new File(photoPath);
-            if (!imageDir.exists()) {
-                try {
-                    //根据一个 文件地址生成一个新的文件用来存照片
-                    imageDir.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        PermissionsUtil.requestPermission(context, new PermissionListener() {
+            @Override
+            public void permissionGranted(@NonNull String[] permissions) {
+                //相机
+                //获取SD卡安装状态
+                String state = Environment.getExternalStorageState();
+                if (state.equals(Environment.MEDIA_MOUNTED)) {
+//            //设置图片保存路径
+//            photoPath = SAVED_IMAGE_PATH + "/" + System.currentTimeMillis() + ".png";
+//            File imageDir = new File(photoPath);
+//            if (!imageDir.exists()) {
+//                try {
+//                    //根据一个 文件地址生成一个新的文件用来存照片
+//                    imageDir.createNewFile();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            //实例化intent,指向摄像头
+//            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            //根据路径实例化图片文件
+//            File photoFile = new File(photoPath);
+//            //设置拍照后图片保存到文件中
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+//            //启动拍照activity并获取返回数据
+//            startActivityForResult(intent, REQUEST_TAKE_PHOTO_CODE);
+                    Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE); //系统常量， 启动相机的关键
+                    startActivityForResult(openCameraIntent, REQUEST_TAKE_PHOTO_CODE); // 参数常量为自定义的request code, 在取返回结果时有用
+                } else {
+                    Toast.makeText(getActivity(), "SD卡未插入", Toast.LENGTH_SHORT).show();
                 }
             }
-            //实例化intent,指向摄像头
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            //根据路径实例化图片文件
-            File photoFile = new File(photoPath);
-            //设置拍照后图片保存到文件中
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-            //启动拍照activity并获取返回数据
-            startActivityForResult(intent, REQUEST_TAKE_PHOTO_CODE);
-        } else {
-            Toast.makeText(getActivity(), "SD卡未插入", Toast.LENGTH_SHORT).show();
-        }
+
+            @Override
+            public void permissionDenied(@NonNull String[] permissions) {
+                Toast.makeText(context, "用户拒绝了文件存储权限或相机权限", Toast.LENGTH_LONG).show();
+            }
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA});
     }
 
     private void takePhotoPicker() {
-        //调用相册
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(intent, REQUEST_TAKE_PHOTO_PICKER_CODE);
+        PermissionsUtil.requestPermission(context, new PermissionListener() {
+            @Override
+            public void permissionGranted(@NonNull String[] permissions) {
+                //调用相册
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, REQUEST_TAKE_PHOTO_PICKER_CODE);
+            }
+
+            @Override
+            public void permissionDenied(@NonNull String[] permissions) {
+                Toast.makeText(context, "用户拒绝了文件存储权限", Toast.LENGTH_LONG).show();
+            }
+        }, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE});
     }
 
     //轮播图的监听方法
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void OnBannerClick(int position) {
         Log.i("tag", "你点了第" + position + "张轮播图");
         if (position == 0) {
+            //扫一扫
             scan();
         } else if (position == 1) {
             takePhoto();
@@ -247,16 +301,47 @@ public class Fragment1 extends Fragment implements OnBannerListener {
                 MyLog.w("扫描结果为：", content);
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
-            File photoFile = new File(photoPath);
-            if (photoFile.exists()) {
-                MyLog.w("拍照的图片地址是", photoFile.getAbsolutePath());
-            } else {
-                Toast.makeText(getActivity(), "图片文件不存在", Toast.LENGTH_LONG).show();
+//            File photoFile = new File(photoPath);
+//            if (photoFile.exists()) {
+//                MyLog.w("拍照的图片地址是", photoFile.getAbsolutePath());
+//            } else {
+//                Toast.makeText(getActivity(), "图片文件不存在", Toast.LENGTH_LONG).show();
+//            }
+            if (resultCode == RESULT_OK) {
+                Bitmap bm = (Bitmap) data.getExtras().get("data");
+                String fileName = saveImage(System.currentTimeMillis() + "", bm);
+                MyLog.w("拍照的图片地址是", fileName);
             }
         } else if (requestCode == REQUEST_TAKE_PHOTO_PICKER_CODE && resultCode == RESULT_OK) {
             String photoPath = getPhotoFromPhotoAlbumUtils.getRealPathFromUri(getActivity(), data.getData());
             MyLog.w("选中的图片地址是", photoPath);
         }
+    }
+
+    /**
+     * 保存图片到本地
+     *
+     * @param name
+     * @param bmp
+     * @return
+     */
+    public String saveImage(String name, Bitmap bmp) {
+        File appDir = new File(SAVED_IMAGE_PATH);
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = name + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //自定义的图片加载器
